@@ -96,6 +96,22 @@ class AdminOptionsTraitTest extends ModuleTestCase
         $this->assertSame(0, $conf['adult']);
     }
 
+    public function testDisabledSwitchesAreStoredAsZero()
+    {
+        $module = $this->makeModule();
+        $switches = ['gtin_isbn', 'availability_date', 'sale_price_dates', 'cost_of_goods', 'unit_pricing_measure', 'is_bundle', 'item_group_title', 'variant_option', 'product_detail', 'product_dimensions', 'document_link', 'adult', 'free_shipping_threshold', 'minimum_order_value'];
+        $_POST = array_fill_keys($switches, '0');
+
+        $this->callPrivate($module, 'saveAdditionalAttributesOptions', [1, 1]);
+        $conf = $module->getConfigFieldsValues(1);
+
+        foreach ($switches as $switch) {
+            // PrestaShop writes false/'' as NULL, which reads back as "never stored"
+            $this->assertSame('0', Configuration::$values['GS_' . strtoupper($switch)], $switch . ' must be stored as 0, not NULL');
+            $this->assertSame(0, $conf[$switch], $switch . ' must stay disabled once saved disabled');
+        }
+    }
+
     public function testInvalidOutOfStockAvailabilityFallsBackToPreorder()
     {
         $module = $this->makeModule();

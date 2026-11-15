@@ -154,7 +154,7 @@ trait AdminOptionsTrait
         // Update all configuration values
         $updated &= Configuration::updateValue('GS_PRODUCT_TYPE', $product_type, false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_TITLE', $title, false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_CAPITALIZE_TITLE', (bool) Tools::getValue('capitalize_title'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_CAPITALIZE_TITLE', (int) (bool) Tools::getValue('capitalize_title'), false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_DESCRIPTION', $description, false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_SHIPPING_MODE', $shipping_mode, false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_SHIPPING_PRICE', (float) Tools::getValue('shipping_price'), false, (int) $shop_group_id, (int) $shop_id);
@@ -171,18 +171,18 @@ trait AdminOptionsTrait
         $updated &= Configuration::updateValue('GS_PATTERN', ArrayHelper::safeImplode((array) Tools::getValue('pattern')), false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_SIZE', ArrayHelper::safeImplode((array) Tools::getValue('size')), false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_EXPORT_MIN_PRICE', (float) Tools::getValue('export_min_price'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_NO_GTIN', (bool) Tools::getValue('no_gtin'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_SHIPPING_DIMENSION', (bool) Tools::getValue('shipping_dimension'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_NO_BRAND', (bool) Tools::getValue('no_brand'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_ID_EXISTS_TAG', (bool) Tools::getValue('id_exists_tag'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_EXPORT_NAP', (bool) Tools::getValue('export_nap'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_QUANTITY', (bool) Tools::getValue('quantity'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_FEATURED_PRODUCTS', (bool) Tools::getValue('featured_products'), false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_GEN_FILE_IN_ROOT', (bool) Tools::getValue('gen_file_in_root'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_NO_GTIN', (int) (bool) Tools::getValue('no_gtin'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_SHIPPING_DIMENSION', (int) (bool) Tools::getValue('shipping_dimension'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_NO_BRAND', (int) (bool) Tools::getValue('no_brand'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_ID_EXISTS_TAG', (int) (bool) Tools::getValue('id_exists_tag'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_EXPORT_NAP', (int) (bool) Tools::getValue('export_nap'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_QUANTITY', (int) (bool) Tools::getValue('quantity'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_FEATURED_PRODUCTS', (int) (bool) Tools::getValue('featured_products'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_GEN_FILE_IN_ROOT', (int) (bool) Tools::getValue('gen_file_in_root'), false, (int) $shop_group_id, (int) $shop_id);
         $updated &= Configuration::updateValue('GS_FILE_PREFIX', trim(Tools::getValue('file_prefix')), false, (int) $shop_group_id, (int) $shop_id);
         $cron_token = preg_replace('/[^a-zA-Z0-9_-]/', '', trim((string) Tools::getValue('cron_token')));
         $updated &= Configuration::updateValue('GS_CRON_TOKEN', $cron_token, false, (int) $shop_group_id, (int) $shop_id);
-        $updated &= Configuration::updateValue('GS_AUTOEXPORT_ON_SAVE', (bool) Tools::getValue('autoexport_on_save'), false, (int) $shop_group_id, (int) $shop_id);
+        $updated &= Configuration::updateValue('GS_AUTOEXPORT_ON_SAVE', (int) (bool) Tools::getValue('autoexport_on_save'), false, (int) $shop_group_id, (int) $shop_id);
         $updated &= $this->saveAdditionalAttributesOptions($shop_id, $shop_group_id);
 
         $this->reportSaveResult($updated, $shop_id, $shop_group_id);
@@ -214,19 +214,19 @@ trait AdminOptionsTrait
         list($min_handling_time, $max_handling_time) = $this->sanitizeHandlingTimes(Tools::getValue('min_handling_time'), Tools::getValue('max_handling_time'));
 
         $values = [
-            'GS_GTIN_ISBN' => (bool) Tools::getValue('gtin_isbn'),
+            'GS_GTIN_ISBN' => (int) (bool) Tools::getValue('gtin_isbn'),
             'GS_OOS_AVAILABILITY' => $oos_availability,
-            'GS_AVAILABILITY_DATE' => (bool) Tools::getValue('availability_date'),
-            'GS_SALE_PRICE_DATES' => (bool) Tools::getValue('sale_price_dates'),
-            'GS_COST_OF_GOODS' => (bool) Tools::getValue('cost_of_goods'),
-            'GS_UNIT_PRICING_MEASURE' => (bool) Tools::getValue('unit_pricing_measure'),
-            'GS_IS_BUNDLE' => (bool) Tools::getValue('is_bundle'),
-            'GS_ITEM_GROUP_TITLE' => (bool) Tools::getValue('item_group_title'),
-            'GS_VARIANT_OPTION' => (bool) Tools::getValue('variant_option'),
-            'GS_PRODUCT_DETAIL' => (bool) Tools::getValue('product_detail'),
-            'GS_PRODUCT_DIMENSIONS' => (bool) Tools::getValue('product_dimensions'),
-            'GS_DOCUMENT_LINK' => (bool) Tools::getValue('document_link'),
-            'GS_ADULT' => (bool) Tools::getValue('adult'),
+            'GS_AVAILABILITY_DATE' => (int) (bool) Tools::getValue('availability_date'),
+            'GS_SALE_PRICE_DATES' => (int) (bool) Tools::getValue('sale_price_dates'),
+            'GS_COST_OF_GOODS' => (int) (bool) Tools::getValue('cost_of_goods'),
+            'GS_UNIT_PRICING_MEASURE' => (int) (bool) Tools::getValue('unit_pricing_measure'),
+            'GS_IS_BUNDLE' => (int) (bool) Tools::getValue('is_bundle'),
+            'GS_ITEM_GROUP_TITLE' => (int) (bool) Tools::getValue('item_group_title'),
+            'GS_VARIANT_OPTION' => (int) (bool) Tools::getValue('variant_option'),
+            'GS_PRODUCT_DETAIL' => (int) (bool) Tools::getValue('product_detail'),
+            'GS_PRODUCT_DIMENSIONS' => (int) (bool) Tools::getValue('product_dimensions'),
+            'GS_DOCUMENT_LINK' => (int) (bool) Tools::getValue('document_link'),
+            'GS_ADULT' => (int) (bool) Tools::getValue('adult'),
             'GS_ENERGY_CLASS' => $this->sanitizeFeatureId(Tools::getValue('energy_class')),
             'GS_MIN_ENERGY_CLASS' => $this->sanitizeFeatureId(Tools::getValue('min_energy_class')),
             'GS_MAX_ENERGY_CLASS' => $this->sanitizeFeatureId(Tools::getValue('max_energy_class')),
@@ -236,8 +236,8 @@ trait AdminOptionsTrait
             'GS_SHIPS_FROM_COUNTRY' => $this->sanitizeCountryCode(Tools::getValue('ships_from_country')),
             'GS_MIN_HANDLING_TIME' => $min_handling_time,
             'GS_MAX_HANDLING_TIME' => $max_handling_time,
-            'GS_FREE_SHIPPING_THRESHOLD' => (bool) Tools::getValue('free_shipping_threshold'),
-            'GS_MINIMUM_ORDER_VALUE' => (bool) Tools::getValue('minimum_order_value'),
+            'GS_FREE_SHIPPING_THRESHOLD' => (int) (bool) Tools::getValue('free_shipping_threshold'),
+            'GS_MINIMUM_ORDER_VALUE' => (int) (bool) Tools::getValue('minimum_order_value'),
             'GS_EXCLUDED_DESTINATIONS' => ArrayHelper::safeImplode(array_values($excluded_destinations)),
             'GS_SHIPPING_LABEL' => $this->sanitizeLabelSource(Tools::getValue('shipping_label'), self::VALID_LABEL_SOURCES),
             'GS_RETURN_POLICY_LABEL' => $this->sanitizeLabelSource(Tools::getValue('return_policy_label'), self::VALID_LABEL_SOURCES),

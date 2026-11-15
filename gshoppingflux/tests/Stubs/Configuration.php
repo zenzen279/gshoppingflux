@@ -10,17 +10,25 @@ class Configuration
     /** @var array<string, mixed> */
     public static $values = [];
 
+    /** A NULL value reads as missing, like the real one (isset() based cache) */
     public static function get($key, $id_lang = null, $id_shop_group = null, $id_shop = null, $default = false)
     {
-        $value = array_key_exists($key, self::$values) ? self::$values[$key] : $default;
+        $value = isset(self::$values[$key]) ? self::$values[$key] : $default;
 
         return is_array($value) ? (isset($value[$id_lang]) ? $value[$id_lang] : $default) : $value;
     }
 
-    /** Stores the value the way PrestaShop does: as a string (false => '') */
+    /**
+     * Stores the value the way PrestaShop does: as a string, except that
+     * an empty string (so false too) is written as NULL in the database.
+     */
     public static function updateValue($key, $values, $html = false, $id_shop_group = null, $id_shop = null)
     {
-        self::$values[$key] = is_array($values) ? $values : (string) $values;
+        if (is_array($values)) {
+            self::$values[$key] = $values;
+        } else {
+            self::$values[$key] = (string) $values === '' ? null : (string) $values;
+        }
 
         return true;
     }
